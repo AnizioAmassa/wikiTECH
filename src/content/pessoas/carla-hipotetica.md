@@ -3,9 +3,7 @@ nome: Carla Hipotética
 turma: 2026
 apelido: Carlinha
 enfase: Matemática
-identificador:
-  tipo: objeto
-  valor: 'o toro $\mathbb{T}^2 = S^1 \times S^1$'
+identificador: Toro
 ---
 
 Terceiro **perfil fictício**. Sem bio, porque ela é opcional.

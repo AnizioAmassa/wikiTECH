@@ -1,5 +1,5 @@
 /**
- * LaTeX inline em textos curtos do frontmatter (identificador `objeto`, `bio`).
+ * LaTeX inline em textos curtos do frontmatter (campo `bio`).
  * O corpo Markdown das páginas usa remark-math + rehype-katex; aqui tratamos
  * strings soltas, delimitadas por `$...$`. Use `\$` para um cifrão literal.
  */

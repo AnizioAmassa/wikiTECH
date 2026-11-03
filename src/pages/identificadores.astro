@@ -1,142 +1,90 @@
 ---
 import Base from '../layouts/Base.astro';
-import IconeTipo from '../components/IconeTipo.astro';
-import Identificador from '../components/Identificador.astro';
 import { todasPessoas, url, type Pessoa } from '../lib/site';
-import { TIPOS, TIPOS_UNICOS, ROTULO_TIPO, chaveIdentificador } from '../lib/normalizar';
+import { normalizar } from '../lib/normalizar';
 
 const pessoas = await todasPessoas();
 
-const DESCRICAO = {
-  palavra: 'Qualquer palavra (não obscena), só com letras. Não pode repetir.',
-  primo: 'Um número primo, escolhido por você. Pode repetir: vários alunos podem ter o mesmo primo.',
-  patrono: 'O nome de um(a) matemático(a). Não pode repetir.',
-  objeto: 'Um objeto matemático específico, com LaTeX entre $…$. Não pode repetir.',
-} as const;
+// Agrupa por letra inicial (sem acento), em ordem alfabética.
+const porLetra = new Map<string, Pessoa[]>();
+for (const p of [...pessoas].sort((a, b) => a.data.identificador.localeCompare(b.data.identificador, 'pt-BR'))) {
+  const letra = normalizar(p.data.identificador)[0].toUpperCase();
+  porLetra.set(letra, [...(porLetra.get(letra) ?? []), p]);
+}
+const letras = [...porLetra.keys()].sort();
 
-const grupos = TIPOS.map((tipo) => {
-  const doTipo = pessoas.filter((p) => p.data.identificador.tipo === tipo);
-  if (tipo === 'primo') {
-    // agrupa por valor, já que primos podem repetir
-    const porPrimo = new Map<number, Pessoa[]>();
-    for (const p of doTipo) {
-      const v = p.data.identificador.valor as number;
-      porPrimo.set(v, [...(porPrimo.get(v) ?? []), p]);
-    }
-    return { tipo, total: doTipo.length, primos: [...porPrimo].sort(([a], [b]) => a - b), pessoas: [] as Pessoa[] };
-  }
-  const ordenadas = doTipo.sort((a, b) =>
-    chaveIdentificador(tipo, a.data.identificador.valor).localeCompare(chaveIdentificador(tipo, b.data.identificador.valor)),
-  );
-  return { tipo, total: doTipo.length, primos: [] as [number, Pessoa[]][], pessoas: ordenadas };
-});
-
-// Chaves já ocupadas (só tipos únicos), para o verificador no navegador.
-const usados = pessoas
-  .filter((p) => TIPOS_UNICOS.includes(p.data.identificador.tipo))
-  .map((p) => `${p.data.identificador.tipo}:${chaveIdentificador(p.data.identificador.tipo, p.data.identificador.valor)}`);
+const usados = pessoas.map((p) => normalizar(p.data.identificador));
 ---
 
-<Base titulo="Identificadores" descricao="Todos os identificadores já usados, para você escolher um livre.">
+<Base titulo="Identificadores" descricao="Todas as palavras já escolhidas, para você achar uma livre.">
   <h1>Identificadores</h1>
   <p>
-    Cada aluno escolhe um identificador de um destes quatro tipos. Palavras, patronos e objetos são
-    <strong>únicos</strong>: a comparação ignora maiúsculas, acentos e espaços. Primos podem se repetir.
+    Além do apelido, cada aluno escolhe uma <strong>palavra única</strong> como identificador. Nenhuma palavra
+    pode se repetir, e a comparação ignora maiúsculas e acentos: <em>Girassol</em> e <em>girassól</em> são a mesma.
   </p>
 
   <section class="secao" aria-labelledby="titulo-verificador">
     <h2 id="titulo-verificador">Está livre?</h2>
     <form class="verificador" data-usados={JSON.stringify(usados)} onsubmit="return false">
-      <div>
-        <label for="v-tipo">Tipo</label>
-        <select id="v-tipo" name="tipo">
-          {TIPOS.map((t) => <option value={t}>{ROTULO_TIPO[t]}</option>)}
-        </select>
-      </div>
-      <div>
-        <label for="v-valor">Valor</label>
-        <input id="v-valor" name="valor" autocomplete="off" placeholder="ex.: girassol" />
-      </div>
+      <label for="v-valor">Sua palavra</label>
+      <input id="v-valor" name="valor" autocomplete="off" placeholder="ex.: girassol" />
       <p class="verificador-resultado" aria-live="polite"></p>
     </form>
-    <p class="muted"><small>A palavra também passa por um filtro de obscenidades no build, que esta caixa não mostra.</small></p>
+    <p class="muted">
+      <small>No build, a palavra também passa por um filtro de obscenidades, que esta caixa não mostra.</small>
+    </p>
   </section>
 
-  {
-    grupos.map((g) => (
-      <section class="secao grupo-tipo" id={g.tipo}>
-        <h2>
-          <span class={`tipo-${g.tipo}`}><IconeTipo tipo={g.tipo} /></span>
-          {ROTULO_TIPO[g.tipo]}
-          <span class="contagem">({g.total})</span>
-        </h2>
-        <p class="muted">{DESCRICAO[g.tipo]}</p>
-        {g.total === 0 && <p>Ninguém escolheu este tipo ainda.</p>}
-        {g.tipo === 'primo' ? (
+  <section class="secao">
+    <h2>Já escolhidas <span class="muted">({pessoas.length})</span></h2>
+    {pessoas.length === 0 && <p>Ninguém escolheu ainda. A primeira palavra pode ser sua!</p>}
+    <ul class="indice-letras" aria-label="Ir para a letra">
+      {letras.map((l) => <li><a href={`#letra-${l}`}>{l}</a></li>)}
+    </ul>
+    {
+      letras.map((l) => (
+        <div class="letra" id={`letra-${l}`}>
+          <h2>{l}</h2>
           <ul class="lista-simples">
-            {g.primos.map(([primo, donos]) => (
+            {porLetra.get(l)!.map((p) => (
               <li>
-                <strong>{primo}</strong>
-                <span>
-                  {donos.map((p, i) => (
-                    <>
-                      {i > 0 && ', '}
-                      <a href={url(`pessoas/${p.id}/`)}>{p.data.apelido}</a>
-                    </>
-                  ))}
-                </span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <ul class="lista-simples">
-            {g.pessoas.map((p) => (
-              <li>
-                <Identificador identificador={p.data.identificador} />
+                <strong>{p.data.identificador}</strong>
                 <a href={url(`pessoas/${p.id}/`)}>{p.data.apelido}</a>
               </li>
             ))}
           </ul>
-        )}
-      </section>
-    ))
-  }
+        </div>
+      ))
+    }
+  </section>
 </Base>
 
 <script>
-  import { chaveIdentificador, TIPOS_UNICOS, type TipoIdentificador } from '../lib/normalizar';
-  import { ehPrimo } from '../lib/primos';
+  import { normalizar, FORMATO_PALAVRA } from '../lib/normalizar';
 
   const form = document.querySelector<HTMLFormElement>('.verificador')!;
   const usados = new Set<string>(JSON.parse(form.dataset.usados ?? '[]'));
-  const tipo = form.querySelector<HTMLSelectElement>('select')!;
   const valor = form.querySelector<HTMLInputElement>('input')!;
   const resultado = form.querySelector<HTMLParagraphElement>('.verificador-resultado')!;
 
-  function verificar() {
-    const t = tipo.value as TipoIdentificador;
+  valor.addEventListener('input', () => {
     const v = valor.value.trim();
     resultado.className = 'verificador-resultado';
     if (!v) {
       resultado.textContent = '';
       return;
     }
-    let ok: boolean;
-    let msg: string;
-    if (t === 'primo') {
-      ok = /^\d+$/.test(v) && ehPrimo(Number(v));
-      msg = ok ? `✔ ${v} é primo e pode ser usado (primos podem repetir).` : `✖ ${v} não é primo.`;
-    } else if (t === 'palavra' && !/^\p{L}+(?:-\p{L}+)*$/u.test(v)) {
-      ok = false;
-      msg = '✖ Use uma única palavra, só com letras (hífen permitido).';
+    let ok = false;
+    if (!FORMATO_PALAVRA.test(v)) {
+      resultado.textContent = '✖ Use uma única palavra, só com letras (hífen permitido).';
+    } else if (v.length < 2 || v.length > 30) {
+      resultado.textContent = '✖ A palavra deve ter de 2 a 30 letras.';
+    } else if (usados.has(normalizar(v))) {
+      resultado.textContent = '✖ Já tem dono. Escolha outra.';
     } else {
-      ok = !(TIPOS_UNICOS.includes(t) && usados.has(`${t}:${chaveIdentificador(t, v)}`));
-      msg = ok ? '✔ Livre! Corre lá e cria o seu perfil.' : '✖ Já tem dono. Escolha outro.';
+      ok = true;
+      resultado.textContent = '✔ Livre! Corre lá e cria o seu perfil.';
     }
-    resultado.textContent = msg;
     resultado.classList.add(ok ? 'livre' : 'ocupado');
-  }
-
-  tipo.addEventListener('change', verificar);
-  valor.addEventListener('input', verificar);
+  });
 </script>

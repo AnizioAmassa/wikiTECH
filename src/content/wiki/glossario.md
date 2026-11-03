@@ -13,7 +13,7 @@ descricao: Gírias, siglas e jargões que você vai ouvir pelos corredores.
 : A área em que você se aprofunda depois do ciclo básico: Matemática, Física, Computação ou Dados.
 
 **Identificador**
-: Uma palavra, um primo, um patrono ou um objeto matemático que cada aluno escolhe para si.
+: A palavra única que cada aluno escolhe para si, além do apelido.
 Veja a página [Identificadores](/identificadores).
 
 **Trivial**

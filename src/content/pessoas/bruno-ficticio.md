@@ -3,9 +3,7 @@ nome: Bruno Fictício
 turma: 2025
 apelido: Brunão
 enfase: Computação
-identificador:
-  tipo: primo
-  valor: 37
+identificador: Farol
 bio: Perfil fictício. Acha que $37$ é o número mais escolhido quando pedem um número "aleatório".
 ---
 

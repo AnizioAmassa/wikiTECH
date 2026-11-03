@@ -1,8 +1,8 @@
 /**
  * Validação completa dos perfis, independente do Astro:
  *  1. nome do arquivo em kebab-case
- *  2. frontmatter válido segundo o schema Zod (formato de cada tipo)
- *  3. unicidade do par (tipo, valor) normalizado, exceto para `primo`
+ *  2. frontmatter válido segundo o schema Zod (formato de cada campo)
+ *  3. unicidade do identificador (palavra), ignorando maiúsculas, acentos e espaços
  *
  * Usada por `npm run check-ids` e pela integração que faz o build falhar.
  */
@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { pessoaSchema } from '../schemas/pessoa';
-import { TIPOS_UNICOS, chaveIdentificador, type TipoIdentificador } from './normalizar';
+import { normalizar } from './normalizar';
 
 export const PASTA_PESSOAS = 'src/content/pessoas';
 
@@ -27,7 +27,7 @@ export function verificarPerfis(raiz: string = process.cwd()): ResultadoVerifica
   if (!fs.existsSync(pasta)) return { arquivos: 0, erros };
 
   const arquivos = fs.readdirSync(pasta).filter((f) => f.endsWith('.md')).sort();
-  const vistos = new Map<string, { tipo: TipoIdentificador; valor: string | number; arquivos: string[] }>();
+  const vistos = new Map<string, { valor: string; arquivos: string[] }>();
 
   for (const nome of arquivos) {
     const rel = `${PASTA_PESSOAS}/${nome}`;
@@ -54,20 +54,19 @@ export function verificarPerfis(raiz: string = process.cwd()): ResultadoVerifica
     registrar();
     if (!r.success) continue;
 
-    const { tipo, valor } = r.data.identificador;
-    if (!TIPOS_UNICOS.includes(tipo)) continue;
-    const chave = `${tipo}:${chaveIdentificador(tipo, valor)}`;
+    const valor = r.data.identificador;
+    const chave = normalizar(valor);
     const atual = vistos.get(chave);
     if (atual) atual.arquivos.push(rel);
-    else vistos.set(chave, { tipo, valor, arquivos: [rel] });
+    else vistos.set(chave, { valor, arquivos: [rel] });
   }
 
-  for (const { tipo, valor, arquivos: lista } of vistos.values()) {
+  for (const { valor, arquivos: lista } of vistos.values()) {
     if (lista.length > 1) {
       erros.push(
-        `Identificador duplicado (${tipo}: "${valor}") em ${lista.length} perfis:\n` +
+        `Identificador duplicado ("${valor}") em ${lista.length} perfis:\n` +
           lista.map((a) => `    ${a}`).join('\n') +
-          `\n    A comparação ignora maiúsculas, acentos e espaços. Quem chegou depois precisa escolher outro.`,
+          `\n    A comparação ignora maiúsculas e acentos. Quem chegou depois precisa escolher outro.`,
       );
     }
   }

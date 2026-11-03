@@ -24,19 +24,18 @@ PRs que violem essas regras serão fechados.
 ### 1. Escolha um identificador
 
 Abra a página **/identificadores** do site. Ela lista tudo o que já foi usado e tem uma caixa
-**"Está livre?"** para testar a sua ideia. Existem quatro tipos:
+**"Está livre?"** para testar a sua ideia.
 
-| Tipo | O que é | Pode repetir? | Exemplo no YAML |
-|---|---|---|---|
-| `palavra` | Uma única palavra, só com letras (hífen permitido), de 2 a 30 caracteres, nada obsceno | ❌ | `valor: Girassol` |
-| `primo` | Um número primo à sua escolha | ✅ | `valor: 37` (sem aspas) |
-| `patrono` | O nome de um(a) matemático(a) | ❌ | `valor: Emmy Noether` |
-| `objeto` | Um objeto matemático específico, com LaTeX entre `$...$` | ❌ | `valor: 'o toro $\mathbb{T}^2$'` |
+O identificador é **uma palavra**, escolhida por você:
 
-A comparação de unicidade **ignora maiúsculas, acentos e espaços**, então `Girassol`, `girassól` e
-` GIRASSOL ` são o mesmo identificador. No `objeto`, todos os espaços são ignorados
-(`$\mathbb{Z}/7$` = `$\mathbb{Z} / 7$`). Se dois PRs pegarem o mesmo identificador, vale o que for
-aceito primeiro, e o outro precisa escolher de novo.
+- uma única palavra, só com letras (acentos e hífen permitidos, sem espaços nem números);
+- de 2 a 30 letras;
+- nada obsceno ou ofensivo;
+- **única**: ninguém mais pode ter a mesma.
+
+A comparação de unicidade **ignora maiúsculas e acentos**, então `Girassol`, `girassól` e `GIRASSOL`
+são o mesmo identificador. Se dois PRs pegarem a mesma palavra, vale o que for aceito primeiro, e o
+outro precisa escolher de novo.
 
 ### 2. Crie o arquivo
 
@@ -49,9 +48,7 @@ nome: Seu Nome Completo        # obrigatório
 turma: 2025                    # obrigatório: ano de entrada, sem aspas
 apelido: "Seu Apelido"         # obrigatório (use aspas se tiver / : # ou começar com número)
 enfase: Matemática             # opcional: Matemática, Física, Computação, Dados ou Ciclo Básico
-identificador:                 # obrigatório
-  tipo: palavra                # palavra | primo | patrono | objeto
-  valor: Girassol
+identificador: Girassol        # obrigatório: uma palavra única
 bio: Uma frase sobre você.     # opcional, até 280 caracteres, aceita $\LaTeX$
 ---
 
@@ -62,7 +59,7 @@ $$
 $$
 ```
 
-> **Dica de YAML:** com LaTeX no frontmatter, use **aspas simples** (`'...'`), para que as barras
+> **Dica de YAML:** com LaTeX na `bio`, use **aspas simples** (`'...'`), para que as barras
 > invertidas (`\mathbb`) não sejam interpretadas.
 
 ### 3. Valide localmente (opcional, mas recomendado)
@@ -76,7 +73,7 @@ Se algo estiver errado, a mensagem diz o arquivo e o campo:
 
 ```
 ✖ src/content/pessoas/seu-nome.md
-    identificador.valor: 15 não é primo
+    identificador: essa palavra não é permitida: escolha outra
 ```
 
 ### 4. Abra o pull request

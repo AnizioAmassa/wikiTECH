@@ -3,9 +3,7 @@ nome: Ana Exemplo
 turma: 2025
 apelido: Aninha
 enfase: Dados
-identificador:
-  tipo: palavra
-  valor: Girassol
+identificador: Girassol
 bio: Perfil fictício de exemplo. Gosta de grafos e de café coado.
 ---
 

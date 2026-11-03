@@ -1,7 +1,7 @@
 # WikiTECH
 
 Uma wiki **não oficial**, feita por alunos do IMPA Tech. Além do apelido, cada aluno escolhe um
-**identificador**: uma palavra, um primo, um patrono ou um objeto matemático.
+**identificador**: uma palavra única, que ninguém mais pode usar.
 
 > **Aviso:** a WikiTECH é um projeto independente de alunos. Não é um site oficial do IMPA nem do
 > IMPA Tech, não tem vínculo com a instituição e não fala em nome dela. "IMPA" e "IMPA Tech" são
@@ -16,7 +16,7 @@ Para criar o seu perfil, leia o [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Stack
 
 - [Astro 7](https://astro.build) com content collections (schemas em Zod)
-- [KaTeX](https://katex.org) para LaTeX (`remark-math` + `rehype-katex` no Markdown; o identificador `objeto` e a `bio` também aceitam `$...$`)
+- [KaTeX](https://katex.org) para LaTeX (`remark-math` + `rehype-katex` no Markdown; a `bio` do perfil também aceita `$...$`)
 - [Pagefind](https://pagefind.app) para busca client-side
 - GitHub Pages via GitHub Actions
 
@@ -49,7 +49,6 @@ src/
 │   ├── normalizar.ts       # normalização e regra de unicidade (também roda no navegador)
 │   ├── verificar-perfis.ts # validação completa (usada pelo script e pelo build)
 │   ├── latex.ts            # LaTeX inline em campos do frontmatter
-│   ├── primos.ts
 │   ├── palavras-bloqueadas.ts
 │   └── site.ts             # helpers de páginas (links, datas de edição via git)
 ├── integrations/check-ids.ts  # faz o `astro build` falhar se houver erro nos perfis
@@ -63,16 +62,15 @@ scripts/check-ids.ts        # `npm run check-ids`
 
 O build **falha** se qualquer perfil:
 
-- tiver um campo inválido (ex.: `turma` antes de 2025, `enfase` fora da lista, primo que não é primo, LaTeX quebrado);
+- tiver um campo inválido (ex.: `turma` antes de 2025, `enfase` fora da lista, identificador com mais de uma palavra, LaTeX quebrado);
 - tiver um campo desconhecido (ex.: `foto`, já que não aceitamos fotos no MVP);
-- usar um identificador `palavra`, `patrono` ou `objeto` que já pertença a outro perfil. A comparação ignora
-  maiúsculas, acentos e espaços (no `objeto`, todos os espaços são ignorados). **Primos podem repetir.**
+- usar um identificador (palavra) que já pertença a outro perfil. A comparação ignora maiúsculas e acentos.
 
 As mensagens de erro dizem qual arquivo e qual campo estão errados:
 
 ```
 ✖ src/content/pessoas/fulano.md
-    identificador.valor: 15 não é primo
+    identificador: essa palavra não é permitida: escolha outra
 ```
 
 ## Deploy
