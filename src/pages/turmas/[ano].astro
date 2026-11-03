@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 const { ano, pessoas } = Astro.props as { ano: number; pessoas: Pessoa[] };
 ---
 
-<Base titulo={`Turma ${ano}`} descricao={`Alunos que entraram no IMPA Tech em ${ano}.`}>
+<Base titulo={`Turma ${ano}`} descricao={`Perfis de quem entrou em ${ano}.`}>
   <p class="etiqueta">Turma</p>
   <h1>{ano}</h1>
   <p class="muted">{pessoas.length} perfil(is) desta turma.</p>

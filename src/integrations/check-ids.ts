@@ -8,7 +8,7 @@ import { verificarPerfis, formatarErros } from '../lib/verificar-perfis';
  */
 export default function checkIds(): AstroIntegration {
   return {
-    name: 'wikimpa:check-ids',
+    name: 'wikitech:check-ids',
     hooks: {
       'astro:config:setup': ({ command, config, logger }) => {
         const { erros } = verificarPerfis(fileURLToPath(config.root));

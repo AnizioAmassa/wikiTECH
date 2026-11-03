@@ -1,7 +1,14 @@
-# WikIMPA
+# WikiTECH
 
-A wiki feita pelos alunos do IMPA Tech, inspirada na Wikita do ITA. Além do apelido, cada aluno
-escolhe um **identificador**: uma palavra, um primo, um patrono ou um objeto matemático.
+Uma wiki **não oficial**, feita por alunos do IMPA Tech. Além do apelido, cada aluno escolhe um
+**identificador**: uma palavra, um primo, um patrono ou um objeto matemático.
+
+> **Aviso:** a WikiTECH é um projeto independente de alunos. Não é um site oficial do IMPA nem do
+> IMPA Tech, não tem vínculo com a instituição e não fala em nome dela. "IMPA" e "IMPA Tech" são
+> citados só para dizer de onde vêm os autores.
+
+**Créditos:** a ideia é inspirada na **Wikita**, a wiki feita pelos alunos do ITA. Todo o crédito pela
+ideia original é deles. (Para linkar a Wikita no site, preencha `WIKITA_URL` em `src/lib/site.ts`.)
 
 Cada página é um arquivo Markdown neste repositório, e toda contribuição entra por pull request.
 Para criar o seu perfil, leia o [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -46,7 +53,8 @@ src/
 │   ├── palavras-bloqueadas.ts
 │   └── site.ts             # helpers de páginas (links, datas de edição via git)
 ├── integrations/check-ids.ts  # faz o `astro build` falhar se houver erro nos perfis
-├── components/  layouts/  pages/  styles/
+├── components/  layouts/  styles/
+├── pages/                  # inclui /sobre (aviso de site não oficial + créditos)
 scripts/check-ids.ts        # `npm run check-ids`
 .github/workflows/site.yml  # valida todo PR; publica a main no GitHub Pages
 ```

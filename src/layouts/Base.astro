@@ -2,7 +2,7 @@
 import 'katex/dist/katex.min.css';
 import '../styles/global.css';
 import TemaToggle from '../components/TemaToggle.astro';
-import { url } from '../lib/site';
+import { url, WIKITA_URL } from '../lib/site';
 
 interface Props {
   titulo?: string;
@@ -10,14 +10,15 @@ interface Props {
   /** Páginas de conteúdo (perfis e wiki) entram no índice de busca. */
   indexar?: boolean;
 }
-const { titulo, descricao = 'A wiki feita pelos alunos do IMPA Tech.', indexar = false } = Astro.props;
-const tituloCompleto = titulo ? `${titulo} · WikIMPA` : 'WikIMPA';
+const { titulo, descricao = 'Wiki não oficial feita por alunos do IMPA Tech.', indexar = false } = Astro.props;
+const tituloCompleto = titulo ? `${titulo} · WikiTECH` : 'WikiTECH';
 const atual = Astro.url.pathname;
 const links = [
   { href: url('pessoas/'), rotulo: 'Pessoas' },
   { href: url('turmas/'), rotulo: 'Turmas' },
   { href: url('wiki/'), rotulo: 'Wiki' },
   { href: url('identificadores/'), rotulo: 'Identificadores' },
+  { href: url('sobre/'), rotulo: 'Sobre' },
 ];
 ---
 
@@ -43,7 +44,7 @@ const links = [
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>
     <header class="topo">
       <div class="topo-interno">
-        <a class="marca" href={url()}>Wik<span>IMPA</span></a>
+        <a class="marca" href={url()}>Wiki<span>TECH</span></a>
         <TemaToggle />
       </div>
       <nav class="nav" aria-label="Principal">
@@ -61,7 +62,12 @@ const links = [
     </main>
     <footer class="rodape">
       <p>
-        Feita pelos alunos do IMPA Tech, um pull request por vez.
+        <strong>Projeto independente, feito por alunos.</strong> A WikiTECH não é um site oficial do IMPA nem do
+        IMPA Tech, não tem vínculo com a instituição e não fala em nome dela.
+        <a href={url('sobre/')}>Saiba mais</a>
+      </p>
+      <p>
+        Inspirada na {WIKITA_URL ? <a href={WIKITA_URL}>Wikita</a> : 'Wikita'}, a wiki dos alunos do ITA.
         <a href="https://github.com/AnizioAmassa/wikiTECH/blob/main/CONTRIBUTING.md">Como contribuir</a>
       </p>
       <p class="muted">Perfis só existem por escolha de quem os criou. Sem fotos.</p>

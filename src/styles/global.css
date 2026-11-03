@@ -392,6 +392,10 @@ blockquote {
   margin-top: 0;
 }
 
+.hero .hero-aviso {
+  font-size: 0.9rem;
+}
+
 .id-do-dia-lista {
   list-style: none;
   padding: 0;

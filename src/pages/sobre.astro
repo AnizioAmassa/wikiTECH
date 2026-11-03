@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import { url, WIKITA_URL } from '../lib/site';
+---
+
+<Base titulo="Sobre" descricao="O que é a WikiTECH, quem faz e de onde veio a ideia.">
+  <h1>Sobre a WikiTECH</h1>
+
+  <section class="secao">
+    <h2>Não oficial</h2>
+    <p>
+      A WikiTECH é um <strong>projeto independente, feito e mantido por alunos</strong> do IMPA Tech.
+      Ela <strong>não é um site oficial</strong> do IMPA (Instituto de Matemática Pura e Aplicada) nem do IMPA Tech,
+      não tem vínculo com a instituição e <strong>não fala em nome dela</strong>.
+    </p>
+    <p>
+      O conteúdo representa apenas a opinião de quem o escreveu. Para informações oficiais sobre cursos, regras,
+      calendário ou processo seletivo, consulte os canais da própria instituição.
+    </p>
+    <p class="muted">
+      “IMPA” e “IMPA Tech” são citados apenas para dizer de onde vêm os autores, e pertencem às respectivas
+      instituições.
+    </p>
+  </section>
+
+  <section class="secao">
+    <h2>Inspiração</h2>
+    <p>
+      A ideia veio da {WIKITA_URL ? <a href={WIKITA_URL}>Wikita</a> : <strong>Wikita</strong>}, a wiki feita pelos
+      alunos do ITA. Todo o crédito pela ideia original é deles.
+    </p>
+    <p>
+      A diferença por aqui: além do apelido, cada aluno escolhe um <a href={url('identificadores/')}>identificador</a>,
+      que pode ser uma palavra, um primo, um patrono ou um objeto matemático.
+    </p>
+  </section>
+
+  <section class="secao">
+    <h2>Como funciona</h2>
+    <ul>
+      <li>Cada página é um arquivo Markdown no repositório, e toda mudança entra por pull request.</li>
+      <li><strong>Opt-in:</strong> só existe perfil de quem criou o próprio. Ninguém escreve sobre outra pessoa sem consentimento.</li>
+      <li>Sem fotos de pessoas.</li>
+      <li>Quer sair? Peça a remoção do seu perfil a qualquer momento.</li>
+    </ul>
+    <p>
+      <a href="https://github.com/AnizioAmassa/wikiTECH/blob/main/CONTRIBUTING.md">Guia de contribuição</a> ·
+      <a href="https://github.com/AnizioAmassa/wikiTECH">Código no GitHub</a>
+    </p>
+  </section>
+</Base>

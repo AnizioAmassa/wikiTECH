@@ -2,6 +2,9 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 
+/** Link da Wikita (ITA), que inspirou este projeto. Preencha quando tiver o endereço. */
+export const WIKITA_URL: string | null = null;
+
 /** Monta um link respeitando o `base` do astro.config. */
 export function url(caminho = ''): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');

@@ -1,4 +1,7 @@
-# Como contribuir com a WikIMPA
+# Como contribuir com a WikiTECH
+
+A WikiTECH é um projeto **independente, feito por alunos**, sem vínculo oficial com o IMPA ou o IMPA Tech.
+Não escreva como se falasse pela instituição.
 
 Toda mudança entra por **pull request**. Você não precisa saber programar: basta criar ou editar um
 arquivo Markdown (dá para fazer tudo pela interface web do GitHub).
