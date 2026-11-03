@@ -78,18 +78,11 @@ Para ativar o deploy, vá em **Settings → Pages** do repositório e, em *Sourc
 
 ### Domínio
 
-O site está configurado para `https://wikitech.github.io` (raiz do domínio, `base: '/'`). No GitHub, um
-endereço `<nome>.github.io` na raiz só existe para um repositório chamado exatamente `<nome>.github.io`
-dentro da conta ou organização `<nome>`. Ou seja, **é preciso que este código esteja no repositório
-`wikitech/wikitech.github.io`**.
+O site é publicado em **https://anizioamassa.github.io/wikiTECH/**.
 
-Se o site for publicado em um subcaminho (ex.: `anizioamassa.github.io/wikiTECH`), defina as variáveis
-no passo de build do workflow:
+Não há nada fixo no código: no CI, o passo `actions/configure-pages` descobre a URL do Pages e passa
+`SITE_URL` e `BASE_PATH` para o build. Se o repositório mudar de nome ou de dono, ou ganhar um
+domínio próprio, o site se ajusta sozinho. Localmente, o site roda na raiz (`/`).
 
-```yaml
-      - name: Construir o site (Astro + Pagefind)
-        run: npm run build
-        env:
-          SITE_URL: https://anizioamassa.github.io
-          BASE_PATH: /wikiTECH
-```
+Links internos no Markdown podem ser escritos como absolutos (`[Identificadores](/identificadores)`):
+o build acrescenta o prefixo `/wikiTECH` automaticamente.

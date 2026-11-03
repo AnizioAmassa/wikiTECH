@@ -5,12 +5,27 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import checkIds from './src/integrations/check-ids.ts';
 
-// O site é publicado em https://wikitech.github.io (raiz do domínio).
-// Para publicar em um subcaminho (ex.: usuario.github.io/wikitech), defina
-// SITE_URL e BASE_PATH no ambiente, ex.: BASE_PATH=/wikitech
+// No CI, SITE_URL e BASE_PATH vêm do actions/configure-pages
+// (ex.: https://anizioamassa.github.io + /wikiTECH). Localmente, o site roda na raiz.
+const base = process.env.BASE_PATH || '/';
+
+/** Prefixa o `base` em links absolutos do Markdown: [x](/identificadores) → /wikiTECH/identificadores */
+function rehypeBaseLinks() {
+  const prefixo = base.replace(/\/$/, '');
+  /** @param {any} no */
+  const visitar = (no) => {
+    const href = no.properties?.href;
+    if (no.tagName === 'a' && typeof href === 'string' && href.startsWith('/') && !href.startsWith('//') && prefixo) {
+      no.properties.href = prefixo + href;
+    }
+    no.children?.forEach(visitar);
+  };
+  return (/** @type {any} */ arvore) => visitar(arvore);
+}
+
 export default defineConfig({
-  site: process.env.SITE_URL ?? 'https://wikitech.github.io',
-  base: process.env.BASE_PATH ?? '/',
+  site: process.env.SITE_URL || 'https://anizioamassa.github.io',
+  base,
   trailingSlash: 'ignore',
   // a compressão do Astro 7 come o espaço entre texto e links em quebras de linha
   compressHTML: false,
@@ -19,7 +34,7 @@ export default defineConfig({
     // remark/rehype (em vez do Sätteri, padrão do Astro 7) para usar remark-math + KaTeX
     processor: unified({
       remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex],
+      rehypePlugins: [rehypeKatex, rehypeBaseLinks],
     }),
   },
 });
