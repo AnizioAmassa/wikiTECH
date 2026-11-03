@@ -9,7 +9,7 @@ import { FORMATO_PALAVRA } from '../lib/normalizar';
 
 export const ENFASES = ['Matemática', 'Física', 'Computação', 'Dados', 'Ciclo Básico'] as const;
 
-export const PRIMEIRA_TURMA = 2025;
+export const PRIMEIRA_TURMA = 2024;
 
 const latexValido = (campo: string) => (valor: string, ctx: z.RefinementCtx) => {
   const erro = erroLatex(valor);

@@ -62,7 +62,7 @@ scripts/check-ids.ts        # `npm run check-ids`
 
 O build **falha** se qualquer perfil:
 
-- tiver um campo inválido (ex.: `turma` antes de 2025, `enfase` fora da lista, identificador com mais de uma palavra, LaTeX quebrado);
+- tiver um campo inválido (ex.: `turma` antes de 2024, `enfase` fora da lista, identificador com mais de uma palavra, LaTeX quebrado);
 - tiver um campo desconhecido (ex.: `foto`, já que não aceitamos fotos no MVP);
 - usar um identificador (palavra) que já pertença a outro perfil. A comparação ignora maiúsculas e acentos.
 
