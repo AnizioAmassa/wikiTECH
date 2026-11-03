@@ -21,12 +21,12 @@ PRs que violem essas regras serão fechados.
 
 ## Criando o seu perfil
 
-### 1. Escolha um identificador
+### 1. Escolha um identificador (opcional)
 
 Abra a página **/identificadores** do site. Ela lista tudo o que já foi usado e tem uma caixa
 **"Está livre?"** para testar a sua ideia.
 
-O identificador é **uma palavra**, escolhida por você:
+O identificador é opcional. Se quiser um, ele é **uma palavra** escolhida por você:
 
 - uma única palavra, só com letras (acentos e hífen permitidos, sem espaços nem números);
 - de 2 a 30 letras;
@@ -40,15 +40,16 @@ outro precisa escolher de novo.
 ### 2. Crie o arquivo
 
 Crie `src/content/pessoas/seu-nome.md`. Use só letras minúsculas sem acento, números e hífens no nome do arquivo
-(ele vira o endereço da página: `/pessoas/seu-nome/`).
+(ele vira o endereço da página: `/pessoas/seu-nome/`). Campos opcionais que você não quiser usar podem
+ser simplesmente apagados.
 
 ```markdown
 ---
 nome: Seu Nome Completo        # obrigatório
 turma: 2025                    # obrigatório: ano de entrada, sem aspas
-apelido: "Seu Apelido"         # obrigatório (use aspas se tiver / : # ou começar com número)
+apelido: "Seu Apelido"         # opcional (use aspas se tiver / : # ou começar com número)
 enfase: Matemática             # opcional: Matemática, Física, Computação, Dados ou Ciclo Básico
-identificador: Girassol        # obrigatório: uma palavra única
+identificador: Girassol        # opcional: uma palavra única
 bio: Uma frase sobre você.     # opcional, até 280 caracteres, aceita $\LaTeX$
 ---
 

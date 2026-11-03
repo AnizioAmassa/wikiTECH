@@ -55,6 +55,7 @@ export function verificarPerfis(raiz: string = process.cwd()): ResultadoVerifica
     if (!r.success) continue;
 
     const valor = r.data.identificador;
+    if (!valor) continue;
     const chave = normalizar(valor);
     const atual = vistos.get(chave);
     if (atual) atual.arquivos.push(rel);

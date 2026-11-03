@@ -4,27 +4,27 @@
  * navegador escolhe um com base na data de hoje (fuso de São Paulo).
  * Assim a escolha muda todo dia sem precisar de um novo build.
  */
-import { url, type Pessoa } from '../lib/site';
+import { url, comoChamar, type Pessoa } from '../lib/site';
 import Identificador from './Identificador.astro';
 
 interface Props {
   pessoas: Pessoa[];
 }
-const { pessoas } = Astro.props;
+const pessoas = Astro.props.pessoas.filter((p) => p.data.identificador);
 ---
 
 <section class="id-do-dia" aria-labelledby="titulo-id-do-dia">
   <h2 id="titulo-id-do-dia">Identificador do dia</h2>
   {
     pessoas.length === 0 ? (
-      <p class="muted">Ainda não há perfis. Que tal criar o primeiro?</p>
+      <p class="muted">Ninguém escolheu um identificador ainda. Que tal ser a primeira pessoa?</p>
     ) : (
       <ul class="id-do-dia-lista">
         {pessoas.map((p, i) => (
           <li data-indice={i} hidden={i !== 0}>
-            <Identificador identificador={p.data.identificador} destaque />
+            <Identificador identificador={p.data.identificador!} destaque />
             <p class="id-do-dia-dono">
-              de <a href={url(`pessoas/${p.id}/`)}>{p.data.apelido}</a>
+              de <a href={url(`pessoas/${p.id}/`)}>{comoChamar(p)}</a>
               <span class="muted"> · Turma {p.data.turma}</span>
             </p>
           </li>

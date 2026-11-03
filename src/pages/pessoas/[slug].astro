@@ -2,7 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Identificador from '../../components/Identificador.astro';
-import { todasPessoas, ultimaEdicao, formatarData, url, type Pessoa } from '../../lib/site';
+import { todasPessoas, ultimaEdicao, formatarData, nomeComApelido, url, type Pessoa } from '../../lib/site';
 import { renderizarLatex, textoPuro } from '../../lib/latex';
 
 export async function getStaticPaths() {
@@ -15,15 +15,15 @@ const { Content } = await render(pessoa);
 const editado = ultimaEdicao(pessoa.filePath);
 ---
 
-<Base titulo={`${nome} (${apelido})`} descricao={bio ? textoPuro(bio) : `Perfil de ${nome} na WikiTECH.`} indexar>
+<Base titulo={nomeComApelido(pessoa)} descricao={bio ? textoPuro(bio) : `Perfil de ${nome} na WikiTECH.`} indexar>
   <article>
     <header class="perfil-cabecalho">
       <p class="etiqueta">Perfil</p>
       <h1>{nome}</h1>
-      <p class="perfil-apelido">“{apelido}”</p>
+      {apelido && <p class="perfil-apelido">“{apelido}”</p>}
     </header>
 
-    <Identificador identificador={identificador} destaque />
+    {identificador && <Identificador identificador={identificador} destaque />}
 
     <dl class="perfil-dados">
       <dt>Turma</dt>

@@ -1,9 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
-import { todasPessoas, url, type Pessoa } from '../lib/site';
+import { todasPessoas, comoChamar, url, type Pessoa } from '../lib/site';
 import { normalizar } from '../lib/normalizar';
 
-const pessoas = await todasPessoas();
+// Só quem escolheu um identificador (ele é opcional).
+const pessoas = (await todasPessoas()).filter((p) => p.data.identificador) as (Pessoa & { data: { identificador: string } })[];
 
 // Agrupa por letra inicial (sem acento), em ordem alfabética.
 const porLetra = new Map<string, Pessoa[]>();
@@ -19,7 +20,7 @@ const usados = pessoas.map((p) => normalizar(p.data.identificador));
 <Base titulo="Identificadores" descricao="Todas as palavras já escolhidas, para você achar uma livre.">
   <h1>Identificadores</h1>
   <p>
-    Além do apelido, cada aluno escolhe uma <strong>palavra única</strong> como identificador. Nenhuma palavra
+    Além do apelido, cada aluno pode escolher uma <strong>palavra única</strong> como identificador. Nenhuma palavra
     pode se repetir, e a comparação ignora maiúsculas e acentos: <em>Girassol</em> e <em>girassól</em> são a mesma.
   </p>
 
@@ -49,7 +50,7 @@ const usados = pessoas.map((p) => normalizar(p.data.identificador));
             {porLetra.get(l)!.map((p) => (
               <li>
                 <strong>{p.data.identificador}</strong>
-                <a href={url(`pessoas/${p.id}/`)}>{p.data.apelido}</a>
+                <a href={url(`pessoas/${p.id}/`)}>{comoChamar(p)}</a>
               </li>
             ))}
           </ul>

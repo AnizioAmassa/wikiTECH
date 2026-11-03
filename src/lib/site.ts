@@ -16,6 +16,12 @@ export type PaginaWiki = CollectionEntry<'wiki'>;
 
 const porNome = (a: Pessoa, b: Pessoa) => a.data.nome.localeCompare(b.data.nome, 'pt-BR');
 
+/** Nome com apelido entre parênteses, quando houver. */
+export const nomeComApelido = (p: Pessoa) => (p.data.apelido ? `${p.data.nome} (${p.data.apelido})` : p.data.nome);
+
+/** Como chamar a pessoa num link curto: apelido, ou o nome se não houver apelido. */
+export const comoChamar = (p: Pessoa) => p.data.apelido ?? p.data.nome;
+
 export async function todasPessoas(): Promise<Pessoa[]> {
   return (await getCollection('pessoas')).sort(porNome);
 }
@@ -68,7 +74,7 @@ export type Edicao = { titulo: string; href: string; tipo: 'Perfil' | 'Wiki'; da
 
 export async function ultimasEdicoes(limite = 8): Promise<Edicao[]> {
   const pessoas = (await getCollection('pessoas')).map((p) => ({
-    titulo: `${p.data.nome} (${p.data.apelido})`,
+    titulo: nomeComApelido(p),
     href: url(`pessoas/${p.id}/`),
     tipo: 'Perfil' as const,
     data: ultimaEdicao(p.filePath),

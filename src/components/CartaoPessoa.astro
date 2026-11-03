@@ -13,8 +13,8 @@ const { nome, apelido, turma, enfase, identificador } = pessoa.data;
 <li class="cartao">
   <a href={url(`pessoas/${pessoa.id}/`)} class="cartao-link">
     <strong class="cartao-nome">{nome}</strong>
-    <span class="cartao-apelido">“{apelido}”</span>
+    {apelido && <span class="cartao-apelido">“{apelido}”</span>}
     <span class="cartao-meta">Turma {turma}{enfase && ` · ${enfase}`}</span>
   </a>
-  <Identificador identificador={identificador} />
+  {identificador && <Identificador identificador={identificador} />}
 </li>

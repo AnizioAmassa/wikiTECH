@@ -16,9 +16,9 @@ const latexValido = (campo: string) => (valor: string, ctx: z.RefinementCtx) => 
   if (erro) ctx.addIssue({ code: 'custom', message: `LaTeX inválido em ${campo}: ${erro}` });
 };
 
-/** O identificador é uma palavra única escolhida pelo próprio aluno. */
+/** O identificador (opcional) é uma palavra única escolhida pelo próprio aluno. */
 export const identificadorSchema = z
-  .string({ error: 'identificador é obrigatório e deve ser uma palavra (ex.: identificador: Girassol)' })
+  .string({ error: 'identificador deve ser uma palavra (ex.: identificador: Girassol)' })
   .trim()
   .min(2, 'o identificador deve ter pelo menos 2 letras')
   .max(30, 'o identificador deve ter no máximo 30 letras')
@@ -33,9 +33,9 @@ export const pessoaSchema = z.strictObject(
       .int('turma deve ser um ano')
       .min(PRIMEIRA_TURMA, `turma deve ser ${PRIMEIRA_TURMA} ou depois`)
       .max(new Date().getFullYear() + 1, 'turma está no futuro'),
-    apelido: z.string({ error: 'apelido é obrigatório' }).trim().min(1, 'apelido vazio').max(40, 'apelido muito longo'),
+    apelido: z.string({ error: 'apelido deve ser um texto' }).trim().min(1, 'apelido vazio: apague a linha se não tiver').max(40, 'apelido muito longo').optional(),
     enfase: z.enum(ENFASES, { error: `enfase deve ser uma de: ${ENFASES.join(', ')}` }).optional(),
-    identificador: identificadorSchema,
+    identificador: identificadorSchema.optional(),
     bio: z.string().trim().max(280, 'bio deve ter no máximo 280 caracteres').superRefine(latexValido('bio')).optional(),
   },
   {
