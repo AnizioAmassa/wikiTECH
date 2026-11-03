@@ -1,0 +1,51 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Identificador from '../../components/Identificador.astro';
+import { todasPessoas, ultimaEdicao, formatarData, url, type Pessoa } from '../../lib/site';
+import { renderizarLatex, textoPuro } from '../../lib/latex';
+
+export async function getStaticPaths() {
+  return (await todasPessoas()).map((pessoa) => ({ params: { slug: pessoa.id }, props: { pessoa } }));
+}
+
+const { pessoa } = Astro.props as { pessoa: Pessoa };
+const { nome, apelido, turma, enfase, identificador, bio } = pessoa.data;
+const { Content } = await render(pessoa);
+const editado = ultimaEdicao(pessoa.filePath);
+---
+
+<Base titulo={`${nome} (${apelido})`} descricao={bio ? textoPuro(bio) : `Perfil de ${nome} na WikIMPA.`} indexar>
+  <article>
+    <header class="perfil-cabecalho">
+      <p class="etiqueta">Perfil</p>
+      <h1>{nome}</h1>
+      <p class="perfil-apelido">“{apelido}”</p>
+    </header>
+
+    <Identificador identificador={identificador} destaque />
+
+    <dl class="perfil-dados">
+      <dt>Turma</dt>
+      <dd><a href={url(`turmas/${turma}/`)}>{turma}</a></dd>
+      {
+        enfase && (
+          <>
+            <dt>Ênfase</dt>
+            <dd>{enfase}</dd>
+          </>
+        )
+      }
+    </dl>
+
+    {bio && <p class="perfil-bio" set:html={renderizarLatex(bio)} />}
+
+    <div class="corpo">
+      <Content />
+    </div>
+
+    <p class="muted" data-pagefind-ignore>
+      <small>Última edição: {formatarData(editado)}</small>
+    </p>
+  </article>
+</Base>

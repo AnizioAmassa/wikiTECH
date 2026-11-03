@@ -1,0 +1,47 @@
+---
+/**
+ * "Identificador aleatório do dia": todos os candidatos vão no HTML e o
+ * navegador escolhe um com base na data de hoje (fuso de São Paulo).
+ * Assim a escolha muda todo dia sem precisar de um novo build.
+ */
+import { url, type Pessoa } from '../lib/site';
+import Identificador from './Identificador.astro';
+
+interface Props {
+  pessoas: Pessoa[];
+}
+const { pessoas } = Astro.props;
+---
+
+<section class="id-do-dia" aria-labelledby="titulo-id-do-dia">
+  <h2 id="titulo-id-do-dia">Identificador do dia</h2>
+  {
+    pessoas.length === 0 ? (
+      <p class="muted">Ainda não há perfis. Que tal criar o primeiro?</p>
+    ) : (
+      <ul class="id-do-dia-lista">
+        {pessoas.map((p, i) => (
+          <li data-indice={i} hidden={i !== 0}>
+            <Identificador identificador={p.data.identificador} destaque />
+            <p class="id-do-dia-dono">
+              de <a href={url(`pessoas/${p.id}/`)}>{p.data.apelido}</a>
+              <span class="muted"> · Turma {p.data.turma}</span>
+            </p>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>
+
+<script>
+  const itens = document.querySelectorAll<HTMLLIElement>('.id-do-dia-lista > li');
+  if (itens.length) {
+    const hoje = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
+    // FNV-1a: hash estável da data → índice
+    let h = 2166136261;
+    for (const c of hoje) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0;
+    const escolhido = h % itens.length;
+    itens.forEach((li, i) => (li.hidden = i !== escolhido));
+  }
+</script>

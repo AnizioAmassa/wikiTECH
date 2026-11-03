@@ -1,0 +1,36 @@
+---
+import { url } from '../lib/site';
+const base = url('pagefind/');
+---
+
+<div class="busca">
+  <div id="busca"></div>
+  <p class="aviso busca-indisponivel" hidden>
+    A busca usa o índice do Pagefind, que só existe no site construído.
+    Rode <code>npm run build</code> e depois <code>npm run preview</code> para testá-la.
+  </p>
+</div>
+
+<script is:inline define:vars={{ base }}>
+  (function () {
+    var css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = base + 'pagefind-ui.css';
+    var js = document.createElement('script');
+    js.src = base + 'pagefind-ui.js';
+    js.onload = function () {
+      document.head.append(css);
+      // eslint-disable-next-line no-undef
+      new PagefindUI({
+        element: '#busca',
+        showImages: false,
+        showSubResults: true,
+        translations: { placeholder: 'Buscar pessoas, apelidos, identificadores, páginas…' },
+      });
+    };
+    js.onerror = function () {
+      document.querySelector('.busca-indisponivel').hidden = false;
+    };
+    document.head.append(js);
+  })();
+</script>

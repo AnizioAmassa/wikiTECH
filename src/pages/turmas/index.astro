@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import { pessoasPorTurma, url } from '../../lib/site';
+
+const turmas = await pessoasPorTurma();
+---
+
+<Base titulo="Turmas" descricao="Perfis agrupados por ano de entrada.">
+  <h1>Turmas</h1>
+  <ul class="lista-simples secao">
+    {
+      [...turmas].map(([ano, pessoas]) => (
+        <li>
+          <a href={url(`turmas/${ano}/`)}>Turma {ano}</a>
+          <span class="muted">{pessoas.length} perfil(is)</span>
+        </li>
+      ))
+    }
+  </ul>
+</Base>

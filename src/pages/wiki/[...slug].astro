@@ -1,0 +1,30 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { CATEGORIAS } from '../../schemas/wiki';
+import { ultimaEdicao, formatarData, url } from '../../lib/site';
+
+export async function getStaticPaths() {
+  return (await getCollection('wiki')).map((pagina) => ({ params: { slug: pagina.id }, props: { pagina } }));
+}
+
+const { pagina } = Astro.props as { pagina: CollectionEntry<'wiki'> };
+const { titulo, categoria, descricao } = pagina.data;
+const { Content } = await render(pagina);
+---
+
+<Base titulo={titulo} descricao={descricao} indexar>
+  <article>
+    <p class="etiqueta" data-pagefind-ignore>
+      <a href={url(`wiki/#${categoria}`)}>{CATEGORIAS[categoria]}</a>
+    </p>
+    <h1>{titulo}</h1>
+    {descricao && <p class="muted">{descricao}</p>}
+    <div class="corpo">
+      <Content />
+    </div>
+    <p class="muted" data-pagefind-ignore>
+      <small>Última edição: {formatarData(ultimaEdicao(pagina.filePath))}</small>
+    </p>
+  </article>
+</Base>

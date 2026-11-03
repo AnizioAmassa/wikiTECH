@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { CATEGORIAS, type Categoria } from '../../schemas/wiki';
+import { url } from '../../lib/site';
+
+const paginas = await getCollection('wiki');
+const grupos = (Object.keys(CATEGORIAS) as Categoria[])
+  .map((cat) => ({
+    cat,
+    paginas: paginas
+      .filter((p) => p.data.categoria === cat)
+      .sort((a, b) => a.data.titulo.localeCompare(b.data.titulo, 'pt-BR')),
+  }))
+  .filter((g) => g.paginas.length);
+---
+
+<Base titulo="Wiki" descricao="Cultura, tradições, disciplinas, dicas e glossário do IMPA Tech.">
+  <h1>Wiki</h1>
+  {
+    grupos.map((g) => (
+      <section class="secao">
+        <h2 id={g.cat}>{CATEGORIAS[g.cat]}</h2>
+        <ul class="lista-simples">
+          {g.paginas.map((p) => (
+            <li>
+              <a href={url(`wiki/${p.id}/`)}>{p.data.titulo}</a>
+              {p.data.descricao && <span class="muted">{p.data.descricao}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>

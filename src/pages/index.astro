@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import Busca from '../components/Busca.astro';
+import IdDoDia from '../components/IdDoDia.astro';
+import { todasPessoas, ultimasEdicoes, formatarData, url } from '../lib/site';
+
+const pessoas = await todasPessoas();
+const edicoes = await ultimasEdicoes();
+---
+
+<Base>
+  <section class="hero">
+    <h1>WikIMPA</h1>
+    <p>A wiki feita pelos alunos do IMPA Tech: pessoas, apelidos, identificadores e tudo o que ninguém te contou.</p>
+  </section>
+
+  <Busca />
+
+  <IdDoDia pessoas={pessoas} />
+
+  <section class="secao" aria-labelledby="titulo-edicoes">
+    <h2 id="titulo-edicoes">Últimas edições</h2>
+    <ul class="lista-simples">
+      {
+        edicoes.map((e) => (
+          <li>
+            <a href={e.href}>{e.titulo}</a>
+            <span class="muted">
+              <span class="etiqueta">{e.tipo}</span> · {formatarData(e.data)}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <p class="aviso">
+    Ainda não tem perfil? <a href={url('identificadores/')}>Veja os identificadores já usados</a> e
+    <a href="https://github.com/AnizioAmassa/wikiTECH/blob/main/CONTRIBUTING.md">crie o seu</a>.
+  </p>
+</Base>

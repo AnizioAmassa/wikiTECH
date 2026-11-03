@@ -1,0 +1,22 @@
+---
+import type { Identificador } from '../schemas/pessoa';
+import { ROTULO_TIPO } from '../lib/normalizar';
+import { renderizarLatex } from '../lib/latex';
+import IconeTipo from './IconeTipo.astro';
+
+interface Props {
+  identificador: Identificador;
+  destaque?: boolean;
+}
+const { identificador, destaque = false } = Astro.props;
+const { tipo, valor } = identificador;
+const html = tipo === 'objeto' ? renderizarLatex(valor) : null;
+---
+
+<div class:list={['identificador', `tipo-${tipo}`, { destaque }]}>
+  <IconeTipo tipo={tipo} tamanho={destaque ? 40 : 22} />
+  <div class="identificador-texto">
+    <span class="identificador-tipo">{ROTULO_TIPO[tipo]}</span>
+    {html ? <span class="identificador-valor" set:html={html} /> : <span class="identificador-valor">{valor}</span>}
+  </div>
+</div>

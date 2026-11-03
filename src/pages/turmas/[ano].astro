@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import CartaoPessoa from '../../components/CartaoPessoa.astro';
+import { pessoasPorTurma, type Pessoa } from '../../lib/site';
+
+export async function getStaticPaths() {
+  return [...(await pessoasPorTurma())].map(([ano, pessoas]) => ({
+    params: { ano: String(ano) },
+    props: { ano, pessoas },
+  }));
+}
+
+const { ano, pessoas } = Astro.props as { ano: number; pessoas: Pessoa[] };
+---
+
+<Base titulo={`Turma ${ano}`} descricao={`Alunos que entraram no IMPA Tech em ${ano}.`}>
+  <p class="etiqueta">Turma</p>
+  <h1>{ano}</h1>
+  <p class="muted">{pessoas.length} perfil(is) desta turma.</p>
+  <ul class="cartoes">
+    {pessoas.map((p) => <CartaoPessoa pessoa={p} />)}
+  </ul>
+</Base>

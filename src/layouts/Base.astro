@@ -1,0 +1,70 @@
+---
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+import TemaToggle from '../components/TemaToggle.astro';
+import { url } from '../lib/site';
+
+interface Props {
+  titulo?: string;
+  descricao?: string;
+  /** Páginas de conteúdo (perfis e wiki) entram no índice de busca. */
+  indexar?: boolean;
+}
+const { titulo, descricao = 'A wiki feita pelos alunos do IMPA Tech.', indexar = false } = Astro.props;
+const tituloCompleto = titulo ? `${titulo} · WikIMPA` : 'WikIMPA';
+const atual = Astro.url.pathname;
+const links = [
+  { href: url('pessoas/'), rotulo: 'Pessoas' },
+  { href: url('turmas/'), rotulo: 'Turmas' },
+  { href: url('wiki/'), rotulo: 'Wiki' },
+  { href: url('identificadores/'), rotulo: 'Identificadores' },
+];
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descricao} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <script is:inline>
+      (function () {
+        var t;
+        try { t = localStorage.getItem('tema'); } catch (e) {}
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro';
+        document.documentElement.dataset.tema = t;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    <header class="topo">
+      <div class="topo-interno">
+        <a class="marca" href={url()}>Wik<span>IMPA</span></a>
+        <TemaToggle />
+      </div>
+      <nav class="nav" aria-label="Principal">
+        {
+          links.map((l) => (
+            <a href={l.href} aria-current={atual.startsWith(l.href) ? 'page' : undefined}>
+              {l.rotulo}
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+    <main id="conteudo" class="conteudo" data-pagefind-body={indexar ? '' : undefined}>
+      <slot />
+    </main>
+    <footer class="rodape">
+      <p>
+        Feita pelos alunos do IMPA Tech, um pull request por vez.
+        <a href="https://github.com/AnizioAmassa/wikiTECH/blob/main/CONTRIBUTING.md">Como contribuir</a>
+      </p>
+      <p class="muted">Perfis só existem por escolha de quem os criou. Sem fotos.</p>
+    </footer>
+  </body>
+</html>

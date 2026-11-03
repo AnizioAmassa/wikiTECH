@@ -1,0 +1,488 @@
+/* ---------- Tokens ---------- */
+:root {
+  --fundo: #fbfaf7;
+  --superficie: #ffffff;
+  --texto: #1d1d1f;
+  --muted: #5d6066;
+  --borda: #e3e0d8;
+  --destaque: #2f5bd3;
+  --destaque-suave: #e8eefc;
+  --palavra: #b45309;
+  --primo: #0f766e;
+  --patrono: #7c3aed;
+  --objeto: #be185d;
+  --raio: 12px;
+  --largura: 46rem;
+  --fonte: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --fonte-titulo: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  color-scheme: light;
+}
+
+:root[data-tema='escuro'] {
+  --fundo: #121316;
+  --superficie: #1b1d22;
+  --texto: #e8e6e1;
+  --muted: #9ca1a8;
+  --borda: #2d3038;
+  --destaque: #8eb0ff;
+  --destaque-suave: #1f2a44;
+  --palavra: #f5b454;
+  --primo: #4fd1c5;
+  --patrono: #b79cff;
+  --objeto: #f48fb8;
+  color-scheme: dark;
+}
+
+/* ---------- Base (mobile first) ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fonte-titulo);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 6vw, 2.5rem);
+  margin: 0.5rem 0 1rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-top: 2rem;
+}
+
+a {
+  color: var(--destaque);
+  text-underline-offset: 0.15em;
+}
+
+code {
+  font-size: 0.9em;
+  background: var(--destaque-suave);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+blockquote {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 4px solid var(--destaque);
+  background: var(--superficie);
+  border-radius: 0 var(--raio) var(--raio) 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.pular {
+  position: absolute;
+  left: -999px;
+}
+
+.pular:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 10;
+  background: var(--superficie);
+  padding: 0.5rem 1rem;
+}
+
+/* KaTeX: fórmulas longas rolam em vez de estourar a tela do celular */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+/* ---------- Topo ---------- */
+.topo {
+  background: var(--superficie);
+  border-bottom: 1px solid var(--borda);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.topo-interno {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 0.6rem 1rem 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.marca {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--texto);
+  text-decoration: none;
+}
+
+.marca span {
+  color: var(--destaque);
+}
+
+.nav {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 0 0.5rem 0.4rem;
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav a {
+  white-space: nowrap;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.nav a[aria-current='page'] {
+  background: var(--destaque-suave);
+  color: var(--destaque);
+  font-weight: 600;
+}
+
+.tema-toggle {
+  background: none;
+  border: 1px solid var(--borda);
+  color: var(--texto);
+  border-radius: 999px;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+:root[data-tema='escuro'] .tema-toggle .lua,
+:root:not([data-tema='escuro']) .tema-toggle .sol {
+  display: none;
+}
+
+/* ---------- Conteúdo ---------- */
+.conteudo {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 1rem 1rem 3rem;
+}
+
+.rodape {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2.5rem;
+  border-top: 1px solid var(--borda);
+  font-size: 0.9rem;
+}
+
+.rodape p {
+  margin: 0.25rem 0;
+}
+
+.secao {
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 1rem 1.1rem;
+  margin: 1.25rem 0;
+}
+
+.secao > h2:first-child {
+  margin-top: 0;
+}
+
+.aviso {
+  background: var(--destaque-suave);
+  border-radius: var(--raio);
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+}
+
+.lista-simples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-simples li {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--borda);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.lista-simples li:last-child {
+  border-bottom: 0;
+}
+
+.etiqueta {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* ---------- Identificador ---------- */
+.identificador {
+  --cor: var(--destaque);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 100%;
+}
+
+.tipo-palavra { --cor: var(--palavra); }
+.tipo-primo { --cor: var(--primo); }
+.tipo-patrono { --cor: var(--patrono); }
+.tipo-objeto { --cor: var(--objeto); }
+
+.icone {
+  color: var(--cor);
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+}
+
+.identificador-texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.identificador-tipo {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cor);
+  font-weight: 600;
+}
+
+.identificador-valor {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.identificador.destaque {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--raio);
+  border: 2px solid var(--cor);
+  background: color-mix(in srgb, var(--cor) 8%, var(--superficie));
+}
+
+.identificador.destaque .icone {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--cor) 15%, transparent);
+}
+
+.identificador.destaque .identificador-valor {
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.4rem, 6vw, 2rem);
+  line-height: 1.25;
+}
+
+/* ---------- Cartões de pessoa ---------- */
+.cartoes {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cartao {
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.cartao-link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--texto);
+}
+
+.cartao-nome {
+  font-size: 1.05rem;
+}
+
+.cartao-link:hover .cartao-nome {
+  color: var(--destaque);
+}
+
+.cartao-apelido {
+  color: var(--destaque);
+}
+
+.cartao-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Perfil ---------- */
+.perfil-cabecalho h1 {
+  margin-bottom: 0.25rem;
+}
+
+.perfil-apelido {
+  font-size: 1.2rem;
+  color: var(--destaque);
+  margin: 0 0 1rem;
+}
+
+.perfil-dados {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  margin: 1rem 0;
+}
+
+.perfil-dados dt {
+  color: var(--muted);
+}
+
+.perfil-dados dd {
+  margin: 0;
+}
+
+.perfil-bio {
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+/* ---------- Home ---------- */
+.hero p {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.id-do-dia-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.id-do-dia-dono {
+  margin: 0.6rem 0 0;
+}
+
+/* ---------- Página de identificadores ---------- */
+.grupo-tipo h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contagem {
+  font-family: var(--fonte);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.verificador {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.verificador label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.verificador select,
+.verificador input {
+  font: inherit;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--borda);
+  background: var(--fundo);
+  color: var(--texto);
+  width: 100%;
+}
+
+.verificador-resultado {
+  min-height: 1.6em;
+  margin: 0;
+  font-weight: 600;
+}
+
+.livre { color: var(--primo); }
+.ocupado { color: var(--objeto); }
+
+/* ---------- Busca (Pagefind) ---------- */
+.busca {
+  --pagefind-ui-scale: 0.9;
+  --pagefind-ui-primary: var(--destaque);
+  --pagefind-ui-text: var(--texto);
+  --pagefind-ui-background: var(--superficie);
+  --pagefind-ui-border: var(--borda);
+  --pagefind-ui-tag: var(--destaque-suave);
+  --pagefind-ui-border-radius: 10px;
+  --pagefind-ui-font: var(--fonte);
+  margin: 1rem 0;
+}
+
+/* ---------- Telas maiores ---------- */
+@media (min-width: 40rem) {
+  .lista-simples li {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .cartoes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .verificador {
+    grid-template-columns: 10rem 1fr;
+    align-items: end;
+  }
+
+  .verificador-resultado {
+    grid-column: 1 / -1;
+  }
+
+  .nav {
+    padding: 0 1rem 0.5rem;
+  }
+}

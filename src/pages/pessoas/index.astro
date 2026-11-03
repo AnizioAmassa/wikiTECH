@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import CartaoPessoa from '../../components/CartaoPessoa.astro';
+import { todasPessoas } from '../../lib/site';
+
+const pessoas = await todasPessoas();
+---
+
+<Base titulo="Pessoas" descricao="Todos os perfis da WikIMPA.">
+  <h1>Pessoas</h1>
+  <p class="muted">{pessoas.length} perfil(is). Cada um foi criado pela própria pessoa.</p>
+  <ul class="cartoes">
+    {pessoas.map((p) => <CartaoPessoa pessoa={p} />)}
+  </ul>
+</Base>
