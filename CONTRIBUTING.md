@@ -28,7 +28,7 @@ Abra a página **/identificadores** do site. Ela lista tudo o que já foi usado 
 
 O identificador é opcional. Se quiser um, ele é **uma palavra** escolhida por você:
 
-- uma única palavra, só com letras (acentos e hífen permitidos, sem espaços nem números);
+- uma única palavra, só com letras (acentos permitidos; hífen ou `_` só entre letras; sem espaços nem números);
 - de 2 a 30 letras;
 - nada obsceno ou ofensivo;
 - **única**: ninguém mais pode ter a mesma.
@@ -48,7 +48,7 @@ ser simplesmente apagados.
 nome: Seu Nome Completo        # obrigatório
 turma: 2025                    # obrigatório: ano de entrada, sem aspas
 apelido: "Seu Apelido"         # opcional (use aspas se tiver / : # ou começar com número)
-enfase: Matemática             # opcional: Matemática, Física, Computação, Dados ou Ciclo Básico
+enfase: Matemática             # opcional: Matemática, Física, Computação, IA e Ciência de Dados ou Ciclo Básico
 identificador: Girassol        # opcional: uma palavra única
 bio: Uma frase sobre você.     # opcional, até 280 caracteres, aceita $\LaTeX$
 ---

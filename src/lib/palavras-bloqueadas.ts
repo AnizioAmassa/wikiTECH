@@ -1,7 +1,7 @@
 /**
  * Lista de palavras proibidas para o identificador `palavra`.
  * Comparação normalizada (sem acento, minúsculas), contra a palavra inteira
- * e contra cada parte de palavras com hífen.
+ * e contra cada parte de palavras com hífen ou _.
  *
  * Nenhuma lista pega tudo: a revisão humana do pull request é a barreira final.
  * Para acrescentar uma palavra, escreva-a sem acento e em minúsculas.
@@ -23,5 +23,5 @@ const BLOQUEADAS = new Set([
 
 export function ehBloqueada(palavra: string): boolean {
   const n = normalizar(palavra);
-  return BLOQUEADAS.has(n) || n.split('-').some((parte) => BLOQUEADAS.has(parte));
+  return BLOQUEADAS.has(n) || n.split(/[-_]/).some((parte) => BLOQUEADAS.has(parte));
 }

@@ -7,7 +7,7 @@ import { ehBloqueada } from '../lib/palavras-bloqueadas';
 import { erroLatex } from '../lib/latex';
 import { FORMATO_PALAVRA } from '../lib/normalizar';
 
-export const ENFASES = ['Matemática', 'Física', 'Computação', 'Dados', 'Ciclo Básico'] as const;
+export const ENFASES = ['Matemática', 'Física', 'Computação', 'IA e Ciência de Dados', 'Ciclo Básico'] as const;
 
 export const PRIMEIRA_TURMA = 2024;
 
@@ -22,7 +22,7 @@ export const identificadorSchema = z
   .trim()
   .min(2, 'o identificador deve ter pelo menos 2 letras')
   .max(30, 'o identificador deve ter no máximo 30 letras')
-  .regex(FORMATO_PALAVRA, 'o identificador deve ser UMA palavra, só com letras (hífen permitido, sem espaços ou números)')
+  .regex(FORMATO_PALAVRA, 'o identificador deve ser UMA palavra, só com letras (hífen ou _ permitidos entre letras, sem espaços ou números)')
   .refine((v) => !ehBloqueada(v), 'essa palavra não é permitida: escolha outra');
 
 export const pessoaSchema = z.strictObject(

@@ -77,7 +77,7 @@ const usados = pessoas.map((p) => normalizar(p.data.identificador));
     }
     let ok = false;
     if (!FORMATO_PALAVRA.test(v)) {
-      resultado.textContent = '✖ Use uma única palavra, só com letras (hífen permitido).';
+      resultado.textContent = '✖ Use uma única palavra, só com letras (hífen ou _ permitidos).';
     } else if (v.length < 2 || v.length > 30) {
       resultado.textContent = '✖ A palavra deve ter de 2 a 30 letras.';
     } else if (usados.has(normalizar(v))) {

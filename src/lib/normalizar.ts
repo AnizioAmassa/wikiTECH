@@ -4,8 +4,8 @@
  * (verificador de disponibilidade em /identificadores).
  */
 
-/** Uma palavra só com letras; hífen permitido entre partes (ex.: guarda-chuva). */
-export const FORMATO_PALAVRA = /^\p{L}+(?:-\p{L}+)*$/u;
+/** Uma palavra só com letras; hífen ou _ permitidos entre partes (ex.: guarda-chuva, lu_anao). */
+export const FORMATO_PALAVRA = /^\p{L}+(?:[-_]\p{L}+)*$/u;
 
 /** Remove acentos, passa para minúsculas e tira espaços: "  Girassól " → "girassol". */
 export function normalizar(texto: string): string {
