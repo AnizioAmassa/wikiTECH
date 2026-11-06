@@ -3,12 +3,12 @@ import { fileURLToPath } from 'node:url';
 import { verificarPerfis, formatarErros } from '../lib/verificar-perfis';
 
 /**
- * Roda a mesma validação do `npm run check-ids` dentro do Astro.
+ * Roda a mesma validação do `npm run check-perfis` dentro do Astro.
  * No build, qualquer erro interrompe o processo. No dev, só avisa.
  */
-export default function checkIds(): AstroIntegration {
+export default function checkPerfis(): AstroIntegration {
   return {
-    name: 'wikitech:check-ids',
+    name: 'wikitech:check-perfis',
     hooks: {
       'astro:config:setup': ({ command, config, logger }) => {
         const { erros } = verificarPerfis(fileURLToPath(config.root));

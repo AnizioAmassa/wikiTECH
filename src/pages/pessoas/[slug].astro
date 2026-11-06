@@ -1,7 +1,6 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Identificador from '../../components/Identificador.astro';
 import { todasPessoas, ultimaEdicao, formatarData, nomeComApelido, url, type Pessoa } from '../../lib/site';
 import { renderizarLatex, textoPuro } from '../../lib/latex';
 
@@ -10,7 +9,7 @@ export async function getStaticPaths() {
 }
 
 const { pessoa } = Astro.props as { pessoa: Pessoa };
-const { nome, apelido, turma, enfase, identificador, bio } = pessoa.data;
+const { nome, apelido, turma, enfase, bio } = pessoa.data;
 const { Content } = await render(pessoa);
 const editado = ultimaEdicao(pessoa.filePath);
 ---
@@ -22,8 +21,6 @@ const editado = ultimaEdicao(pessoa.filePath);
       <h1>{nome}</h1>
       {apelido && <p class="perfil-apelido">“{apelido}”</p>}
     </header>
-
-    {identificador && <Identificador identificador={identificador} destaque />}
 
     <dl class="perfil-dados">
       <dt>Turma</dt>

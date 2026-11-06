@@ -2,15 +2,13 @@
  * Validação completa dos perfis, independente do Astro:
  *  1. nome do arquivo em kebab-case
  *  2. frontmatter válido segundo o schema Zod (formato de cada campo)
- *  3. unicidade do identificador (palavra), ignorando maiúsculas, acentos e espaços
  *
- * Usada por `npm run check-ids` e pela integração que faz o build falhar.
+ * Usada por `npm run check-perfis` e pela integração que faz o build falhar.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { pessoaSchema } from '../schemas/pessoa';
-import { normalizar } from './normalizar';
 
 export const PASTA_PESSOAS = 'src/content/pessoas';
 
@@ -27,7 +25,6 @@ export function verificarPerfis(raiz: string = process.cwd()): ResultadoVerifica
   if (!fs.existsSync(pasta)) return { arquivos: 0, erros };
 
   const arquivos = fs.readdirSync(pasta).filter((f) => f.endsWith('.md')).sort();
-  const vistos = new Map<string, { valor: string; arquivos: string[] }>();
 
   for (const nome of arquivos) {
     const rel = `${PASTA_PESSOAS}/${nome}`;
@@ -52,24 +49,6 @@ export function verificarPerfis(raiz: string = process.cwd()): ResultadoVerifica
       for (const i of r.error.issues) problemas.push(`${i.path.length ? i.path.join('.') : '(raiz)'}: ${i.message}`);
     }
     registrar();
-    if (!r.success) continue;
-
-    const valor = r.data.identificador;
-    if (!valor) continue;
-    const chave = normalizar(valor);
-    const atual = vistos.get(chave);
-    if (atual) atual.arquivos.push(rel);
-    else vistos.set(chave, { valor, arquivos: [rel] });
-  }
-
-  for (const { valor, arquivos: lista } of vistos.values()) {
-    if (lista.length > 1) {
-      erros.push(
-        `Identificador duplicado ("${valor}") em ${lista.length} perfis:\n` +
-          lista.map((a) => `    ${a}`).join('\n') +
-          `\n    A comparação ignora maiúsculas e acentos. Quem chegou depois precisa escolher outro.`,
-      );
-    }
   }
 
   return { arquivos: arquivos.length, erros };

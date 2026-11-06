@@ -1,13 +1,12 @@
 ---
 import type { Pessoa } from '../lib/site';
 import { url } from '../lib/site';
-import Identificador from './Identificador.astro';
 
 interface Props {
   pessoa: Pessoa;
 }
 const { pessoa } = Astro.props;
-const { nome, apelido, turma, enfase, identificador } = pessoa.data;
+const { nome, apelido, turma, enfase } = pessoa.data;
 ---
 
 <li class="cartao">
@@ -16,5 +15,4 @@ const { nome, apelido, turma, enfase, identificador } = pessoa.data;
     {apelido && <span class="cartao-apelido">“{apelido}”</span>}
     <span class="cartao-meta">Turma {turma}{enfase && ` · ${enfase}`}</span>
   </a>
-  {identificador && <Identificador identificador={identificador} />}
 </li>

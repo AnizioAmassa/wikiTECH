@@ -1,6 +1,6 @@
 /**
- * npm run check-ids
- * Valida o formato de todos os perfis e a unicidade dos identificadores.
+ * npm run check-perfis
+ * Valida o nome do arquivo e o frontmatter de todos os perfis.
  * Sai com código 1 se houver qualquer erro.
  */
 import { verificarPerfis, formatarErros } from '../src/lib/verificar-perfis';
@@ -13,4 +13,4 @@ if (erros.length) {
   process.exit(1);
 }
 
-console.log(`✔ ${arquivos} perfil(is) válidos, nenhum identificador duplicado.`);
+console.log(`✔ ${arquivos} perfil(is) válidos.`);

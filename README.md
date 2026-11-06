@@ -1,7 +1,7 @@
 # WikiTECH
 
-Uma wiki **não oficial**, feita por alunos do IMPA Tech. Além do apelido, cada aluno escolhe um
-**identificador**: uma palavra única, que ninguém mais pode usar.
+Uma wiki **não oficial**, feita por alunos do IMPA Tech: perfis (com apelidos), turmas e páginas sobre
+a vida de estudante.
 
 > **Aviso:** a WikiTECH é um projeto independente de alunos. Não é um site oficial do IMPA nem do
 > IMPA Tech, não tem vínculo com a instituição e não fala em nome dela. "IMPA" e "IMPA Tech" são
@@ -32,7 +32,7 @@ npm run dev          # http://localhost:4321
 | Comando | O que faz |
 |---|---|
 | `npm run dev` | Servidor de desenvolvimento |
-| `npm run check-ids` | Valida o formato de todos os perfis e a unicidade dos identificadores |
+| `npm run check-perfis` | Valida o nome do arquivo e o frontmatter de todos os perfis |
 | `npm run build` | Gera o site em `dist/` e o índice de busca do Pagefind |
 | `npm run preview` | Serve o `dist/` (use para testar a busca, que não funciona no `dev`) |
 
@@ -46,15 +46,13 @@ src/
 ├── content.config.ts       # coleções do Astro
 ├── schemas/                # schemas Zod de perfil e de página da wiki
 ├── lib/
-│   ├── normalizar.ts       # normalização e regra de unicidade (também roda no navegador)
-│   ├── verificar-perfis.ts # validação completa (usada pelo script e pelo build)
+│   ├── verificar-perfis.ts # validação dos perfis (usada pelo script e pelo build)
 │   ├── latex.ts            # LaTeX inline em campos do frontmatter
-│   ├── palavras-bloqueadas.ts
 │   └── site.ts             # helpers de páginas (links, datas de edição via git)
-├── integrations/check-ids.ts  # faz o `astro build` falhar se houver erro nos perfis
+├── integrations/check-perfis.ts  # faz o `astro build` falhar se houver erro nos perfis
 ├── components/  layouts/  styles/
 ├── pages/                  # inclui /sobre (aviso de site não oficial + créditos)
-scripts/check-ids.ts        # `npm run check-ids`
+scripts/check-perfis.ts     # `npm run check-perfis`
 .github/workflows/site.yml  # valida todo PR; publica a main no GitHub Pages
 ```
 
@@ -62,22 +60,21 @@ scripts/check-ids.ts        # `npm run check-ids`
 
 O build **falha** se qualquer perfil:
 
-- tiver um campo inválido (ex.: `turma` antes de 2024, `enfase` fora da lista, identificador com mais de uma palavra, LaTeX quebrado);
+- tiver um campo inválido (ex.: `turma` antes de 2024, `enfase` fora da lista, LaTeX quebrado na `bio`);
 - tiver um campo desconhecido (ex.: `foto`, já que não aceitamos fotos no MVP);
-- usar um identificador (palavra) que já pertença a outro perfil. A comparação ignora maiúsculas e acentos.
 
 As mensagens de erro dizem qual arquivo e qual campo estão errados:
 
 ```
 ✖ src/content/pessoas/fulano.md
-    identificador: essa palavra não é permitida: escolha outra
+    enfase: enfase deve ser uma de: Matemática, Física, Computação, IA e Ciência de Dados, Ciclo Básico
 ```
 
 ## Deploy
 
 O workflow `.github/workflows/site.yml` faz o seguinte:
 
-- em **todo PR**: roda `npm run check-ids` e `npm run build`;
+- em **todo PR**: roda `npm run check-perfis` e `npm run build`;
 - na **main**: faz o mesmo e publica no GitHub Pages.
 
 Para ativar o deploy, vá em **Settings → Pages** do repositório e, em *Source*, escolha **GitHub Actions**.
@@ -90,5 +87,5 @@ Não há nada fixo no código: no CI, o passo `actions/configure-pages` descobre
 `SITE_URL` e `BASE_PATH` para o build. Se o repositório mudar de nome ou de dono, ou ganhar um
 domínio próprio, o site se ajusta sozinho. Localmente, o site roda na raiz (`/`).
 
-Links internos no Markdown podem ser escritos como absolutos (`[Identificadores](/identificadores)`):
+Links internos no Markdown podem ser escritos como absolutos (`[Sobre](/sobre)`):
 o build acrescenta o prefixo `/wikiTECH` automaticamente.

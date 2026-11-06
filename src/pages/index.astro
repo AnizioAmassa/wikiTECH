@@ -1,25 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
 import Busca from '../components/Busca.astro';
-import IdDoDia from '../components/IdDoDia.astro';
-import { todasPessoas, ultimasEdicoes, formatarData, url } from '../lib/site';
+import { ultimasEdicoes, formatarData, url } from '../lib/site';
 
-const pessoas = await todasPessoas();
 const edicoes = await ultimasEdicoes();
 ---
 
 <Base>
   <section class="hero">
     <h1>WikiTECH</h1>
-    <p>A wiki <strong>não oficial</strong> feita por alunos do IMPA Tech: pessoas, apelidos, identificadores e tudo o que ninguém te contou.</p>
+    <p>A wiki <strong>não oficial</strong> feita por alunos do IMPA Tech: pessoas, apelidos, turmas e tudo o que ninguém te contou.</p>
     <p class="hero-aviso">
       Projeto independente dos alunos, sem vínculo com o IMPA. <a href={url('sobre/')}>Sobre</a>
     </p>
   </section>
 
   <Busca />
-
-  <IdDoDia pessoas={pessoas} />
 
   <section class="secao" aria-labelledby="titulo-edicoes">
     <h2 id="titulo-edicoes">Últimas edições</h2>
@@ -38,7 +34,7 @@ const edicoes = await ultimasEdicoes();
   </section>
 
   <p class="aviso">
-    Ainda não tem perfil? <a href={url('identificadores/')}>Veja os identificadores já usados</a> e
-    <a href="https://github.com/AnizioAmassa/wikiTECH/blob/main/CONTRIBUTING.md">crie o seu</a>.
+    Ainda não tem perfil?
+    <a href="https://github.com/AnizioAmassa/wikiTECH/blob/main/CONTRIBUTING.md">Veja como criar o seu</a>.
   </p>
 </Base>

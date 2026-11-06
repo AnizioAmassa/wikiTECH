@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
-    "check-ids": "tsx scripts/check-ids.ts",
+    "check-perfis": "tsx scripts/check-perfis.ts",
     "astro": "astro"
   },
   "dependencies": {

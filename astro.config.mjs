@@ -3,13 +3,13 @@ import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import checkIds from './src/integrations/check-ids.ts';
+import checkPerfis from './src/integrations/check-perfis.ts';
 
 // No CI, SITE_URL e BASE_PATH vêm do actions/configure-pages
 // (ex.: https://anizioamassa.github.io + /wikiTECH). Localmente, o site roda na raiz.
 const base = process.env.BASE_PATH || '/';
 
-/** Prefixa o `base` em links absolutos do Markdown: [x](/identificadores) → /wikiTECH/identificadores */
+/** Prefixa o `base` em links absolutos do Markdown: [x](/sobre) → /wikiTECH/sobre */
 function rehypeBaseLinks() {
   const prefixo = base.replace(/\/$/, '');
   /** @param {any} no */
@@ -29,7 +29,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   // a compressão do Astro 7 come o espaço entre texto e links em quebras de linha
   compressHTML: false,
-  integrations: [checkIds()],
+  integrations: [checkPerfis()],
   markdown: {
     // remark/rehype (em vez do Sätteri, padrão do Astro 7) para usar remark-math + KaTeX
     processor: unified({

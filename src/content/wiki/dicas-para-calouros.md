@@ -23,4 +23,4 @@ $$
 ## Vida
 
 - Durma. Sério.
-- Crie o seu perfil nesta wiki e escolha um identificador antes que alguém pegue o seu!
+- Crie o seu perfil nesta wiki!

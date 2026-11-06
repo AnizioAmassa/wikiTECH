@@ -10,11 +10,7 @@ descricao: Gírias, siglas e jargões que você vai ouvir pelos corredores.
 : Os primeiros semestres, comuns a todas as ênfases.
 
 **Ênfase**
-: A área em que você se aprofunda depois do ciclo básico: Matemática, Física, Computação ou Dados.
-
-**Identificador**
-: A palavra única que cada aluno escolhe para si, além do apelido.
-Veja a página [Identificadores](/identificadores).
+: A área em que você se aprofunda depois do ciclo básico: Matemática, Física, Computação ou IA e Ciência de Dados.
 
 **Trivial**
 : Algo que alguém demorou três horas para entender e agora acha óbvio.

@@ -7,9 +7,6 @@
   --borda: #e3e0d8;
   --destaque: #2f5bd3;
   --destaque-suave: #e8eefc;
-  --palavra: #b45309;
-  --ok: #0f766e;
-  --erro: #be185d;
   --raio: 12px;
   --largura: 46rem;
   --fonte: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -25,9 +22,6 @@
   --borda: #2d3038;
   --destaque: #8eb0ff;
   --destaque-suave: #1f2a44;
-  --palavra: #f5b454;
-  --ok: #4fd1c5;
-  --erro: #f48fb8;
   color-scheme: dark;
 }
 
@@ -248,63 +242,6 @@ blockquote {
   color: var(--muted);
 }
 
-/* ---------- Identificador ---------- */
-.identificador {
-  --cor: var(--palavra);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  max-width: 100%;
-}
-
-.icone {
-  color: var(--cor);
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-}
-
-.identificador-texto {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.identificador-tipo {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--cor);
-  font-weight: 600;
-}
-
-.identificador-valor {
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-
-.identificador.destaque {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem 1.1rem;
-  border-radius: var(--raio);
-  border: 2px solid var(--cor);
-  background: color-mix(in srgb, var(--cor) 8%, var(--superficie));
-}
-
-.identificador.destaque .icone {
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--cor) 15%, transparent);
-}
-
-.identificador.destaque .identificador-valor {
-  font-family: var(--fonte-titulo);
-  font-size: clamp(1.4rem, 6vw, 2rem);
-  line-height: 1.25;
-}
-
 /* ---------- Cartões de pessoa ---------- */
 .cartoes {
   list-style: none;
@@ -387,61 +324,6 @@ blockquote {
 
 .hero .hero-aviso {
   font-size: 0.9rem;
-}
-
-.id-do-dia-lista {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.id-do-dia-dono {
-  margin: 0.6rem 0 0;
-}
-
-/* ---------- Página de identificadores ---------- */
-.verificador {
-  display: grid;
-  gap: 0.6rem;
-}
-
-.verificador label {
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.verificador select,
-.verificador input {
-  font: inherit;
-  padding: 0.55rem 0.7rem;
-  border-radius: 8px;
-  border: 1px solid var(--borda);
-  background: var(--fundo);
-  color: var(--texto);
-  width: 100%;
-}
-
-.verificador-resultado {
-  min-height: 1.6em;
-  margin: 0;
-  font-weight: 600;
-}
-
-.livre { color: var(--ok); }
-.ocupado { color: var(--erro); }
-
-.indice-letras {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 0.75rem;
-  padding: 0;
-  list-style: none;
-  font-weight: 600;
-}
-
-.letra h2 {
-  font-size: 1.2rem;
-  margin: 1.25rem 0 0.25rem;
 }
 
 /* ---------- Busca (Pagefind) ---------- */

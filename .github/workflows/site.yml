@@ -29,8 +29,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Validar identificadores (formato + unicidade)
-        run: npm run check-ids
+      - name: Validar perfis
+        run: npm run check-perfis
 
       # Descobre a URL do GitHub Pages (ex.: https://anizioamassa.github.io/wikiTECH)
       - name: Configurar GitHub Pages
